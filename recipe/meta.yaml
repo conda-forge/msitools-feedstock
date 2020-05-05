@@ -22,6 +22,7 @@ requirements:
     - make
     - bison
     - flex
+    - pkg-config
   host:
     - libgsf
     - libuuid
