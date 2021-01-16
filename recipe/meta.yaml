@@ -12,7 +12,7 @@ source:
     - byte-order-osx.patch
 
 build:
-  number: 1
+  number: 2
   # Not supported on win
   skip: True   # [win]
 
