@@ -9,7 +9,7 @@ channel_sources:
 channel_targets:
 - conda-forge main
 glib:
-- '2.66'
+- '2'
 libuuid:
 - 2.32.1
 libxml2:
