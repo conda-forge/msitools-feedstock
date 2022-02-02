@@ -154,4 +154,5 @@ Feedstock Maintainers
 =====================
 
 * [@isuruf](https://github.com/isuruf/)
+* [@xhochy](https://github.com/xhochy/)
 
