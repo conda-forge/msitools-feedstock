@@ -1,5 +1,5 @@
 {% set name = "msitools" %}
-{% set version = "0.100" %}
+{% set version = "0.102" %}
 
 package:
   name: {{ name|lower }}
@@ -7,14 +7,14 @@ package:
 
 source:
   url: http://ftp.gnome.org/pub/GNOME/sources/msitools/{{ version }}/msitools-{{ version }}.tar.xz
-  sha256: bbf1a6e3a9c2323b860a3227ac176736a3eafc4a44a67346c6844591f10978ea
+  sha256: fa485a421397ef5fe02df5ab93fced91abf685730f40f94c7157b430d24a3498
   patches:
     - byte-order-osx.patch
 
 build:
-  number: 3
+  number: 0
   # Not supported on win
-  skip: True   # [win]
+  skip: true  # [win]
 
 requirements:
   build:
@@ -45,7 +45,7 @@ about:
   license_family: LGPL
   license_file:
     - COPYING.LIB
-  summary: 'Simple, fast, extensible JSON encoder/decoder for Python'
+  summary: Simple, fast, extensible JSON encoder/decoder for Python
   doc_url: https://wiki.gnome.org/msitools/HowTo/CreateLibraryWxi
   dev_url: https://gitlab.gnome.org/GNOME/msitools
 
