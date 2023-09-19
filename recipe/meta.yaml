@@ -1,5 +1,5 @@
 {% set name = "msitools" %}
-{% set version = "0.100" %}
+{% set version = "0.103" %}
 
 package:
   name: {{ name|lower }}
@@ -7,14 +7,14 @@ package:
 
 source:
   url: http://ftp.gnome.org/pub/GNOME/sources/msitools/{{ version }}/msitools-{{ version }}.tar.xz
-  sha256: bbf1a6e3a9c2323b860a3227ac176736a3eafc4a44a67346c6844591f10978ea
+  sha256: d17622eebbf37fa4c09b59be0bc8db08b26be300a6731c74da1ebce262bce839
   patches:
     - byte-order-osx.patch
 
 build:
-  number: 3
+  number: 0
   # Not supported on win
-  skip: True   # [win]
+  skip: true  # [win]
 
 requirements:
   build:
