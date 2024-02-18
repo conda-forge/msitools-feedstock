@@ -9,7 +9,7 @@ source:
   url: http://ftp.gnome.org/pub/GNOME/sources/msitools/{{ version }}/msitools-{{ version }}.tar.xz
   sha256: d17622eebbf37fa4c09b59be0bc8db08b26be300a6731c74da1ebce262bce839
   patches:
-    - byte-order-osx.patch
+    - 0001-Look-for-vapi-files-in-prefix.patch
 
 build:
   number: 0
@@ -24,11 +24,15 @@ requirements:
     - bison
     - flex
     - pkg-config
+    - meson
+    - vala
+    - perl *
   host:
     - libgsf
     - libuuid
     - libxml2
     - gcab
+    - gobject-introspection
     - glib
   run:
     - {{ pin_compatible("libgsf", max_pin="x.x") }}
