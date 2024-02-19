@@ -10,10 +10,10 @@ meson_config_args=(
     --buildtype=release
     --backend=ninja
     -Dlibdir=lib
-    -Dintrospection=enabled
+    -Dintrospection=true
 )
 
-if [[ "$CONDA_BUILD_CROSS_COMPILATION" == "1" ]]; then
+if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "1" ]]; then
   unset _CONDA_PYTHON_SYSCONFIGDATA_NAME
   (
     mkdir -p native-build
