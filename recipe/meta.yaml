@@ -18,9 +18,7 @@ build:
 
 requirements:
   build:
-    - gnuconfig  # [unix]
     - {{ compiler('c') }}
-    - make
     - bison
     - flex
     - pkg-config
