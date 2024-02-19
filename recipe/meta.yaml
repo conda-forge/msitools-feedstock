@@ -26,6 +26,8 @@ requirements:
     - vala
     - gobject-introspection
     - perl *
+    - glib  # [build_platform != target_platform]
+    - gcab  # [build_platform != target_platform]
   host:
     - libgsf
     - libuuid
