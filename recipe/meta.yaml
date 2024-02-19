@@ -1,5 +1,5 @@
 {% set name = "msitools" %}
-{% set version = "0.100" %}
+{% set version = "0.103" %}
 
 package:
   name: {{ name|lower }}
@@ -7,36 +7,42 @@ package:
 
 source:
   url: http://ftp.gnome.org/pub/GNOME/sources/msitools/{{ version }}/msitools-{{ version }}.tar.xz
-  sha256: bbf1a6e3a9c2323b860a3227ac176736a3eafc4a44a67346c6844591f10978ea
+  sha256: d17622eebbf37fa4c09b59be0bc8db08b26be300a6731c74da1ebce262bce839
   patches:
-    - byte-order-osx.patch
+    - 0001-Look-for-vapi-files-in-prefix.patch
 
 build:
-  number: 3
+  number: 0
   # Not supported on win
-  skip: True   # [win]
+  skip: true  # [win]
 
 requirements:
   build:
-    - gnuconfig  # [unix]
     - {{ compiler('c') }}
-    - make
     - bison
     - flex
     - pkg-config
+    - meson
+    - vala
+    - gobject-introspection
+    - perl *
+    - glib    # [build_platform != target_platform]
+    - gcab    # [build_platform != target_platform]
+    - libgsf  # [build_platform != target_platform]
   host:
     - libgsf
     - libuuid
     - libxml2
     - gcab
     - glib
+    - gettext
   run:
     - {{ pin_compatible("libgsf", max_pin="x.x") }}
 
 test:
   commands:
     - test -f $PREFIX/include/libmsi-1.0/libmsi.h
-    - test -f $PREFIX/lib/libmsi${SHLIB_EXT}
+    - test -f $PREFIX/lib/libmsi-1.0${SHLIB_EXT}
     - msiextract --help
 
 about:
@@ -44,7 +50,7 @@ about:
   license: LGPL-2.1-or-later
   license_family: LGPL
   license_file:
-    - COPYING.LIB
+    - copyright
   summary: 'Simple, fast, extensible JSON encoder/decoder for Python'
   doc_url: https://wiki.gnome.org/msitools/HowTo/CreateLibraryWxi
   dev_url: https://gitlab.gnome.org/GNOME/msitools

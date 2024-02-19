@@ -1,0 +1,50 @@
+From bd7c88e98cec2b5c96b7def7b4236d089d6cc97a Mon Sep 17 00:00:00 2001
+From: "Uwe L. Korn" <uwelk@xhochy.com>
+Date: Sun, 18 Feb 2024 10:30:34 +0100
+Subject: [PATCH] Look for vapi files in prefix
+
+---
+ tools/meson.build      | 1 +
+ tools/wixl/meson.build | 3 +++
+ 2 files changed, 4 insertions(+)
+
+diff --git a/tools/meson.build b/tools/meson.build
+index 17a5030..e9aa9df 100644
+--- a/tools/meson.build
++++ b/tools/meson.build
+@@ -46,6 +46,7 @@ if get_option('introspection')
+       '--pkg', 'config',
+       '--vapidir=@0@'.format(meson.source_root()),
+       '--vapidir=@0@'.format(meson.build_root() / 'libmsi'),
++      '--vapidir=@0@'.format(get_option('prefix') / 'share' / 'vala' / 'vapi'),
+     ],
+     c_args: ['-include', meson.build_root() / 'config.h'],
+     dependencies: [libmsi, libgcab, libmsi_vapi],
+diff --git a/tools/wixl/meson.build b/tools/wixl/meson.build
+index 8a056fa..98d92d7 100644
+--- a/tools/wixl/meson.build
++++ b/tools/wixl/meson.build
+@@ -9,6 +9,7 @@ libcommon = static_library('common',
+     '--library', 'common',
+     '--vapidir=@0@'.format(meson.source_root() / 'vapi'),
+     '--vapidir=@0@'.format(meson.current_source_dir()),
++    '--vapidir=@0@'.format(get_option('prefix') / 'share' / 'vala' / 'vapi'),
+   ],
+   dependencies: glib,
+ )
+@@ -29,6 +30,7 @@ wixl = executable('wixl',
+     '--pkg', 'posix',
+     '--vapidir=@0@'.format(meson.source_root()),
+     '--vapidir=@0@'.format(meson.build_root() / 'libmsi'),
++    '--vapidir=@0@'.format(get_option('prefix') / 'share' / 'vala' / 'vapi'),
+   ],
+   c_args: ['-include', meson.build_root() / 'config.h'],
+   include_directories: inc_dirs,
+@@ -52,6 +54,7 @@ wixl_heat = executable('wixl-heat',
+     '--pkg', 'posix',
+     '--vapidir=@0@'.format(meson.source_root()),
+     '--vapidir=@0@'.format(meson.build_root() / 'libmsi'),
++    '--vapidir=@0@'.format(get_option('prefix') / 'share' / 'vala' / 'vapi'),
+   ],
+   c_args: ['-include', meson.build_root() / 'config.h'],
+   include_directories: inc_dirs,
