@@ -34,7 +34,6 @@ requirements:
     - libuuid
     - libxml2
     - gcab
-    - gobject-introspection
     - glib
     - gettext
   run:

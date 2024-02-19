@@ -13,6 +13,11 @@ meson_config_args=(
     -Dintrospection=true
 )
 
+# necessary to ensure the gobject-introspection-1.0 pkg-config file gets found
+# meson needs this to determine where the g-ir-scanner script is located
+export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$BUILD_PREFIX/lib/pkgconfig
+export PKG_CONFIG=$BUILD_PREFIX/bin/pkg-config
+
 if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "1" ]]; then
   unset _CONDA_PYTHON_SYSCONFIGDATA_NAME
   (
@@ -57,7 +62,7 @@ meson setup builddir/ \
 
 ninja -C builddir/ -j${CPU_COUNT}
 
-if [[ ("${CONDA_BUILD_CROSS_COMPILATION:-}" != "1" || "${CROSSCOMPILING_EMULATOR}" != "") && "${target_platform}" != osx-64  ]]; then
+if [[ ("${CONDA_BUILD_CROSS_COMPILATION:-}" != "1" || "${CROSSCOMPILING_EMULATOR:-}" != "") && "${target_platform}" != osx-64  ]]; then
   ninja -C builddir/ -j${CPU_COUNT} test
 fi
 
