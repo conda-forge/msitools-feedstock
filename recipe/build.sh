@@ -24,7 +24,9 @@ if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "1" ]]; then
     mkdir -p native-build
 
     export CC=$CC_FOR_BUILD
-    export OBJC=$OBJC_FOR_BUILD
+    if [[ "${target_platform}" == osx-* ]]; then
+      export OBJC=$OBJC_FOR_BUILD
+    fi
     export AR=($CC_FOR_BUILD -print-prog-name=ar)
     export NM=($CC_FOR_BUILD -print-prog-name=nm)
     export LDFLAGS=${LDFLAGS//$PREFIX/$BUILD_PREFIX}
