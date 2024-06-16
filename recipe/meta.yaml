@@ -30,6 +30,7 @@ requirements:
     - gcab    # [build_platform != target_platform]
     - libgsf  # [build_platform != target_platform]
   host:
+    - libgirepository
     - libgsf
     - libuuid
     - libxml2
