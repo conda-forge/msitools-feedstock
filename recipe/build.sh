@@ -6,10 +6,12 @@ if [[ "${target_platform}" == osx-* ]]; then
   export CFLAGS="${CFLAGS} -Wno-incompatible-function-pointer-types"
 fi
 
-meson_config_args=(
+# We will always need introspection to build the wixl command.
+meson_config_argss=(
     --buildtype=release
     --backend=ninja
     -Dlibdir=lib
+    -Dintrospection=true
 )
 
 # necessary to ensure the gobject-introspection-1.0 pkg-config file gets found
@@ -55,13 +57,6 @@ if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "1" ]]; then
   export GI_CROSS_LAUNCHER=$BUILD_PREFIX/libexec/gi-cross-launcher-load.sh
 fi
 
-if [[ "${build_platform}" != "${target_platform}" ]]; then
-  # Generation of introspection isn't currently working in cross-compilation mode.
-  export MESON_ARGS="${MESON_ARGS:-} -Dintrospection=false"
-else
-  export MESON_ARGS="${MESON_ARGS:-} -Dintrospection=true"
-fi
-
 meson setup builddir/ \
   ${MESON_ARGS} \
   "${meson_config_args[@]}" \
@@ -69,10 +64,9 @@ meson setup builddir/ \
   || { cat builddir/meson-logs/meson-log.txt; exit 1; }
 
 ninja -C builddir/ -j${CPU_COUNT}
+ninja -C builddir/ install
 
 if [[ ("${CONDA_BUILD_CROSS_COMPILATION:-}" != "1" || "${CROSSCOMPILING_EMULATOR:-}" != "") && "${target_platform}" != osx-64  ]]; then
   ninja -C builddir/ -j${CPU_COUNT} test
 fi
-
-ninja -C builddir/ install
 
