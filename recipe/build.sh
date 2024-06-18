@@ -63,7 +63,7 @@ meson setup builddir/ \
   --prefix=$PREFIX \
   || { cat builddir/meson-logs/meson-log.txt; exit 1; }
 
-ninja -C builddir/ -j${CPU_COUNT}
+ninja -v -C builddir/ -j1
 ninja -C builddir/ install
 
 if [[ ("${CONDA_BUILD_CROSS_COMPILATION:-}" != "1" || "${CROSSCOMPILING_EMULATOR:-}" != "") && "${target_platform}" != osx-64  ]]; then
