@@ -7,7 +7,7 @@ if [[ "${target_platform}" == osx-* ]]; then
 fi
 
 # We will always need introspection to build the wixl command.
-meson_config_argss=(
+meson_config_args=(
     --buildtype=release
     --backend=ninja
     -Dlibdir=lib
