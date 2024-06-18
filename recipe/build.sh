@@ -10,7 +10,6 @@ meson_config_args=(
     --buildtype=release
     --backend=ninja
     -Dlibdir=lib
-    -Dintrospection=true
 )
 
 # necessary to ensure the gobject-introspection-1.0 pkg-config file gets found
@@ -54,6 +53,13 @@ if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "1" ]]; then
     ninja -C native-build install -j ${CPU_COUNT}
   )
   export GI_CROSS_LAUNCHER=$BUILD_PREFIX/libexec/gi-cross-launcher-load.sh
+fi
+
+if [[ "${build_platform}" != "${target_platform}" ]]; then
+  # Generation of introspection isn't currently working in cross-compilation mode.
+  export MESON_ARGS="${MESON_ARGS:-} -Dintrospection=false"
+else
+  export MESON_ARGS="${MESON_ARGS:-} -Dintrospection=true"
 fi
 
 meson setup builddir/ \
