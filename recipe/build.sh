@@ -6,6 +6,7 @@ if [[ "${target_platform}" == osx-* ]]; then
   export CFLAGS="${CFLAGS} -Wno-incompatible-function-pointer-types"
 fi
 
+# We will always need introspection to build the wixl command.
 meson_config_args=(
     --buildtype=release
     --backend=ninja
@@ -24,7 +25,9 @@ if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "1" ]]; then
     mkdir -p native-build
 
     export CC=$CC_FOR_BUILD
-    export OBJC=$OBJC_FOR_BUILD
+    if [[ "${target_platform}" == osx-* ]]; then
+      export OBJC=$OBJC_FOR_BUILD
+    fi
     export AR=($CC_FOR_BUILD -print-prog-name=ar)
     export NM=($CC_FOR_BUILD -print-prog-name=nm)
     export LDFLAGS=${LDFLAGS//$PREFIX/$BUILD_PREFIX}
@@ -54,17 +57,28 @@ if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "1" ]]; then
   export GI_CROSS_LAUNCHER=$BUILD_PREFIX/libexec/gi-cross-launcher-load.sh
 fi
 
+if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" && "${target_platform}" == linux-* ]]; then
+    # Is there a better way to use ldd during cross compilation?
+    # gobject-introspection either suggests passing an ldd wrapper, or ensuring
+    # that the native ldd can be used. We choose the second strategy.
+    # https://github.com/conda-forge/ctng-compilers-feedstock/issues/110
+    cp ${CONDA_BUILD_SYSROOT}/usr/bin/ldd ${BUILD_PREFIX}/bin/ldd
+
+    # On ppc64le it is specified as two things, so we have to argument both
+    sed -i "/^RTLDLIST/s,/lib/,${CONDA_BUILD_SYSROOT}/lib/," ${BUILD_PREFIX}/bin/ldd
+    sed -i "/^RTLDLIST/s,/lib64/,${CONDA_BUILD_SYSROOT}/lib64/," ${BUILD_PREFIX}/bin/ldd
+fi
+
 meson setup builddir/ \
   ${MESON_ARGS} \
   "${meson_config_args[@]}" \
   --prefix=$PREFIX \
   || { cat builddir/meson-logs/meson-log.txt; exit 1; }
 
-ninja -C builddir/ -j${CPU_COUNT}
+ninja -v -C builddir/ -j${CPU_COUNT}
+ninja -C builddir/ install
 
 if [[ ("${CONDA_BUILD_CROSS_COMPILATION:-}" != "1" || "${CROSSCOMPILING_EMULATOR:-}" != "") && "${target_platform}" != osx-64  ]]; then
   ninja -C builddir/ -j${CPU_COUNT} test
 fi
-
-ninja -C builddir/ install
 

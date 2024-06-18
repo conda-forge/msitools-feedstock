@@ -30,6 +30,7 @@ requirements:
     - gcab    # [build_platform != target_platform]
     - libgsf  # [build_platform != target_platform]
   host:
+    - libgirepository
     - libgsf
     - libuuid
     - libxml2
@@ -44,6 +45,7 @@ test:
     - test -f $PREFIX/include/libmsi-1.0/libmsi.h
     - test -f $PREFIX/lib/libmsi-1.0${SHLIB_EXT}
     - msiextract --help
+    - wixl --help
 
 about:
   home: https://wiki.gnome.org/msitools
