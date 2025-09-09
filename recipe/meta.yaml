@@ -12,13 +12,14 @@ source:
     - 0001-Look-for-vapi-files-in-prefix.patch
 
 build:
-  number: 0
+  number: 1
   # Not supported on win
   skip: true  # [win]
 
 requirements:
   build:
     - {{ compiler('c') }}
+    - {{ stdlib("c") }}
     - bison
     - flex
     - pkg-config
@@ -33,7 +34,7 @@ requirements:
     - libgirepository
     - libgsf
     - libuuid
-    - libxml2
+    - libxml2-devel
     - gcab
     - glib
     - gettext
