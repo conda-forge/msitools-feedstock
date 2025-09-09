@@ -22,6 +22,7 @@ requirements:
     - {{ stdlib("c") }}
     - bison
     - flex
+    - cmake
     - pkg-config
     - meson
     - vala
@@ -38,6 +39,7 @@ requirements:
     - gcab
     - glib
     - gettext
+    - zlib
   run:
     - {{ pin_compatible("libgsf", max_pin="x.x") }}
 
