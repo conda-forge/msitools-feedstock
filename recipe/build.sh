@@ -5,6 +5,10 @@ set -euxo pipefail
 if [[ "${target_platform}" == osx-* ]]; then
   export CFLAGS="${CFLAGS} -Wno-incompatible-function-pointer-types"
 fi
+if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "1" ]]; then
+  rm ${PREFIX}/bin/glib-mkenums
+  ln -sf ${BUILD_PREFIX}/bin/glib-mkenums ${PREFIX}/bin/glib-mkenums
+fi
 
 # We will always need introspection to build the wixl command.
 meson_config_args=(
