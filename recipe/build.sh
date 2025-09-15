@@ -5,6 +5,9 @@ set -euxo pipefail
 if [[ "${target_platform}" == osx-* ]]; then
   export CFLAGS="${CFLAGS} -Wno-incompatible-function-pointer-types"
 fi
+if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "1" ]]; then
+  rm ${PREFIX}/bin/glib-mkenums
+fi
 
 # We will always need introspection to build the wixl command.
 meson_config_args=(
@@ -55,7 +58,6 @@ if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "1" ]]; then
     ninja -C native-build install -j ${CPU_COUNT}
   )
   export GI_CROSS_LAUNCHER=$BUILD_PREFIX/libexec/gi-cross-launcher-load.sh
-  rm ${PREFIX}/bin/glib-mkenums
 fi
 
 if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" && "${target_platform}" == linux-* ]]; then
