@@ -10,7 +10,6 @@ source:
   sha256: d17622eebbf37fa4c09b59be0bc8db08b26be300a6731c74da1ebce262bce839
   patches:
     - 0001-Look-for-vapi-files-in-prefix.patch
-    - vapi.diff
 
 build:
   number: 1
