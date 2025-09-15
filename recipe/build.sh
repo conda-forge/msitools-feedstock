@@ -55,6 +55,7 @@ if [[ "${CONDA_BUILD_CROSS_COMPILATION:-0}" == "1" ]]; then
     ninja -C native-build install -j ${CPU_COUNT}
   )
   export GI_CROSS_LAUNCHER=$BUILD_PREFIX/libexec/gi-cross-launcher-load.sh
+  rm ${PREFIX}/bin/glib-mkenums
 fi
 
 if [[ "${CONDA_BUILD_CROSS_COMPILATION:-}" == "1" && "${target_platform}" == linux-* ]]; then
