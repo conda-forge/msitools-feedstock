@@ -26,13 +26,13 @@ requirements:
     - pkg-config
     - meson
     - vala
-    - gobject-introspection
+    - gobject-introspection 1.82.*
     - perl *
     - glib    # [build_platform != target_platform]
     - gcab    # [build_platform != target_platform]
     - libgsf  # [build_platform != target_platform]
   host:
-    - libgirepository
+    - libgirepository 1.82.*
     - vala
     - libgsf
     - libuuid
