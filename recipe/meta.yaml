@@ -33,6 +33,7 @@ requirements:
     - libgsf  # [build_platform != target_platform]
   host:
     - libgirepository
+    - vala
     - libgsf
     - libuuid
     - libxml2-devel
