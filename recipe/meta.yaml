@@ -31,6 +31,7 @@ requirements:
     - glib    # [build_platform != target_platform]
     - gcab    # [build_platform != target_platform]
     - libgsf  # [build_platform != target_platform]
+    - libxml2-devel  # [build_platform != target_platform]
   host:
     - libgirepository 1.82.*
     - vala
