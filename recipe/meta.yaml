@@ -12,31 +12,36 @@ source:
     - 0001-Look-for-vapi-files-in-prefix.patch
 
 build:
-  number: 0
+  number: 1
   # Not supported on win
   skip: true  # [win]
 
 requirements:
   build:
     - {{ compiler('c') }}
+    - {{ stdlib("c") }}
     - bison
     - flex
+    - cmake
     - pkg-config
     - meson
     - vala
-    - gobject-introspection
+    - gobject-introspection 1.82.*
     - perl *
     - glib    # [build_platform != target_platform]
     - gcab    # [build_platform != target_platform]
     - libgsf  # [build_platform != target_platform]
+    - libxml2-devel  # [build_platform != target_platform]
+    - gettext        # [build_platform != target_platform]
   host:
-    - libgirepository
+    - libgirepository 1.82.*
     - libgsf
     - libuuid
-    - libxml2
+    - libxml2-devel
     - gcab
     - glib
     - gettext
+    - zlib
   run:
     - {{ pin_compatible("libgsf", max_pin="x.x") }}
 
