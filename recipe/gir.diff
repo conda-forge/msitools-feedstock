@@ -1,0 +1,10 @@
+--- libmsi/meson.build	2025-09-15 11:25:48.110658038 -0500
++++ libmsi/meson.build	2025-09-15 11:26:07.867337923 -0500
+@@ -90,6 +90,7 @@
+     ],
+     extra_args: [
+       '--c-include=libmsi.h',
++      '--doc-format=gi-docgen',
+     ],
+     install: true,
+   )
