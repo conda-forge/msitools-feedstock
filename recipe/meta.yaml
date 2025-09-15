@@ -32,6 +32,7 @@ requirements:
     - gcab    # [build_platform != target_platform]
     - libgsf  # [build_platform != target_platform]
     - libxml2-devel  # [build_platform != target_platform]
+    - gettext        # [build_platform != target_platform]
   host:
     - libgirepository 1.82.*
     - libgsf
