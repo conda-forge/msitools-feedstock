@@ -1,0 +1,73 @@
+schema_version: 1
+
+context:
+  name: msitools
+  version: 0.103
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: http://ftp.gnome.org/pub/GNOME/sources/msitools/${{ version }}/msitools-${{ version }}.tar.xz
+  sha256: d17622eebbf37fa4c09b59be0bc8db08b26be300a6731c74da1ebce262bce839
+  patches:
+    - 0001-Look-for-vapi-files-in-prefix.patch
+
+build:
+  # Not supported on win
+  number: 2
+  skip: win
+
+requirements:
+  build:
+    - ${{ compiler('c') }}
+    - ${{ stdlib("c") }}
+    - bison
+    - flex
+    - cmake
+    - pkg-config
+    - meson
+    - vala
+    - gobject-introspection 1.82.*
+    - perl *
+    - gettext-tools
+    - if: build_platform != target_platform
+      then: 
+        - glib
+        - gcab
+        - libgsf
+        - libxml2-devel
+  host:
+    - libgirepository 1.82.*
+    - libgsf
+    - libuuid
+    - libxml2-devel
+    - gcab
+    - glib
+    - if: osx
+      then: libintl-devel
+    - zlib
+  run:
+    - ${{ pin_compatible("libgsf", upper_bound="x.x") }}
+
+tests:
+  - script:
+      - test -f $PREFIX/include/libmsi-1.0/libmsi.h
+      - test -f $PREFIX/lib/libmsi-1.0${SHLIB_EXT}
+      - msiextract --help
+      - wixl --help
+
+about:
+  license: LGPL-2.1-or-later
+  license_file:
+    - copyright
+  summary: Simple, fast, extensible JSON encoder/decoder for Python
+  homepage: https://wiki.gnome.org/msitools
+  repository: https://gitlab.gnome.org/GNOME/msitools
+  documentation: https://wiki.gnome.org/msitools/HowTo/CreateLibraryWxi
+
+extra:
+  recipe-maintainers:
+    - isuruf
+    - xhochy
